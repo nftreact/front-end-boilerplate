@@ -1,16 +1,18 @@
-import { colorPalette } from '@/libs/theme'
-import styled from '@emotion/styled'
-import { css, Typography } from '@mui/material'
-import React, { InputHTMLAttributes, forwardRef, ReactNode } from 'react'
+import React, { forwardRef, InputHTMLAttributes, ReactNode } from 'react';
 
-type Variant = 'outlined' | 'filled' | 'underline'
+import styled from '@emotion/styled';
+import { css, Typography } from '@mui/material';
+
+import { colorPalette } from '@/libs/theme';
+
+type Variant = 'outlined' | 'filled' | 'underline';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  variant?: Variant
-  error?: boolean
-  startAdornment?: ReactNode
-  endAdornment?: ReactNode
-  errorText?: string
+  variant?: Variant;
+  error?: boolean;
+  startAdornment?: ReactNode;
+  endAdornment?: ReactNode;
+  errorText?: string;
 }
 
 const TextField = forwardRef<HTMLInputElement, InputProps>(
@@ -19,7 +21,12 @@ const TextField = forwardRef<HTMLInputElement, InputProps>(
       <>
         <Container variant={variant} error={error}>
           {startAdornment && <Adornment position='start'>{startAdornment}</Adornment>}
-          <StyledInput ref={ref} variant={variant} {...props} />
+          <StyledInput
+            ref={ref}
+            variant={variant}
+            {...props}
+            style={{ color: error ? colorPalette.pink[9] : colorPalette.gray[11] }}
+          />
           {endAdornment && <Adornment position='end'>{endAdornment}</Adornment>}
         </Container>
         {errorText && (
@@ -28,13 +35,13 @@ const TextField = forwardRef<HTMLInputElement, InputProps>(
           </Typography>
         )}
       </>
-    )
-  },
-)
+    );
+  }
+);
 
-TextField.displayName = 'TextField'
+TextField.displayName = 'TextField';
 
-export default TextField
+export default TextField;
 
 // Container to hold input and adornments
 const Container = styled.div<{ variant: Variant; error: boolean }>`
@@ -45,16 +52,25 @@ const Container = styled.div<{ variant: Variant; error: boolean }>`
   box-sizing: border-box;
 
   ${({ variant }) => variantStyles[variant]}
+
   ${({ error }) =>
     error &&
     css`
-      border-color: red !important;
+      border-color: ${colorPalette.pink[9]} !important;
+      background-color: ${colorPalette.pink[2]};
+      color: ${colorPalette.pink[9]} !important;
 
       input {
-        border-color: red !important;
+        border-color: ${colorPalette.pink[9]} !important;
+        color: ${colorPalette.pink[9]}; /* text color when typing */
+
+        &::placeholder {
+          color: ${colorPalette.pink[9]}; /* placeholder color on error */
+          opacity: 1; /* ensure it's visible */
+        }
       }
     `}
-`
+`;
 
 // Styled input, full width, no borders because container has it
 const StyledInput = styled.input<{ variant: Variant }>`
@@ -69,7 +85,7 @@ const StyledInput = styled.input<{ variant: Variant }>`
   &:focus {
     outline: none;
   }
-`
+`;
 
 const Adornment = styled.div<{ position: 'start' | 'end' }>`
   display: flex;
@@ -84,7 +100,7 @@ const Adornment = styled.div<{ position: 'start' | 'end' }>`
       : css`
           margin-left: 8px;
         `}
-`
+`;
 
 const variantStyles = {
   outlined: css`
@@ -118,4 +134,4 @@ const variantStyles = {
       border-bottom-color: #007bff;
     }
   `,
-}
+};

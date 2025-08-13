@@ -87,7 +87,7 @@ export default function Home() {
         </IconButton>
       </Flex>
       <Flex gap={'16px'}>
-        <TextField startAdornment={<AddStyle />} endAdornment={<AddStyle />} placeholder='تست شماره یک ' />
+        <TextField error startAdornment={<AddStyle />} endAdornment={<AddStyle />} placeholder='تست شماره یک ' />
       </Flex>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Flex padding={'16px'}>dsfdf</Flex>
