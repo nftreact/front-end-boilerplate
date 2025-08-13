@@ -3,12 +3,26 @@
 import Add from '../public/Add'
 import { SelectProps, styled, Typography } from '@mui/material'
 import { useState } from 'react'
-import { Button, Drawer, Flex, Grid, IconButton, Modal, Select, TextField } from '@/libs/primitives'
+import {
+  Button,
+  Drawer,
+  Flex,
+  Grid,
+  IconButton,
+  Modal,
+  MultiCheckbox,
+  RadioButton,
+  Select,
+  SingleCheckbox,
+  TextField,
+} from '@/libs/primitives'
 import { FormAction } from '@/libs/shared'
 
 export default function Home() {
   const [state, setState] = useState(false)
   const [open, setOpen] = useState(false)
+  const [selected, setSelected] = useState('option1')
+  const [checked, setChecked] = useState(false)
 
   const handleChange: SelectProps['onChange'] = (event) => {
     setValue(event.target.value as string)
@@ -17,6 +31,21 @@ export default function Home() {
   const toggleDrawer = (open: boolean) => () => {
     setState(open)
   }
+
+  const options = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ]
+
+  const [selected1, setSelected1] = useState<string[]>([])
+
+  const handleChange1 = (values: string[]) => {
+    setSelected1(values)
+    console.log('Selected values:', values)
+  }
+
+  console.log(selected1, 'selected1selected1selected1')
 
   return (
     <Grid style={{ padding: '24px', display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -79,6 +108,34 @@ export default function Home() {
           <FormAction onClose={toggleDrawer(false)} />
         </form>
       </Drawer>
+
+      <Flex direction={'row'} gap={'16px'}>
+        <RadioButton
+          label='Option 1'
+          name='example'
+          value='option1'
+          checked={selected === 'option1'}
+          onChange={() => setSelected('option1')}
+        />
+        <RadioButton
+          label='Option 2'
+          name='example'
+          value='option2'
+          checked={selected === 'option2'}
+          onChange={() => setSelected('option2')}
+        />
+      </Flex>
+      <div>
+        <SingleCheckbox
+          label='Accept Terms & Conditions'
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+        />
+      </div>
+      <div>
+        <h2>Choose options:</h2>
+        <MultiCheckbox isRow options={options} defaultValues={['option2']} onChange={handleChange1} />
+      </div>
     </Grid>
   )
 }
