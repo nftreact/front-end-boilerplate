@@ -6,15 +6,29 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+     "prepare": "husky",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "ts": "tsc --noEmit --incremental --preserveWatchOutput --pretty",
+    "validate": "npm run lint && npm run ts"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "bash -c tsc --project ./tsconfig.json --noEmit --pretty"
+    ]
   },
   "dependencies": {
-    "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.1",
-    "@mui/material": "^7.3.1",
-    "@mui/material-nextjs": "^7.3.0",
+    "@emotion/cache": "11.14.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@mui/icons-material": "7.3.1",
+    "@mui/material": "7.3.1",
+    "@mui/material-nextjs": "7.3.0",
+     "@trivago/prettier-plugin-sort-imports": "5.2.2",
+    "eslint-plugin-prettier": "5.4.1",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0"
@@ -26,6 +40,12 @@
     "@types/react-dom": "19",
     "eslint": "9",
     "eslint-config-next": "15.4.6",
-    "typescript": "5"
+    "typescript": "5",
+    "@typescript-eslint/eslint-plugin": "8.33.0",
+    "@typescript-eslint/parser": "8.33.0",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "husky": "9.1.7",
+    "jiti": "2.4.2"
   }
 }

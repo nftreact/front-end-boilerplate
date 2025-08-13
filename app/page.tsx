@@ -1,8 +1,9 @@
-'use client'
+'use client';
 
-import Add from '../public/Add'
-import { SelectProps, styled, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useState } from 'react';
+
+import { SelectProps, styled, Typography } from '@mui/material';
+
 import {
   Button,
   Drawer,
@@ -15,37 +16,39 @@ import {
   Select,
   SingleCheckbox,
   TextField,
-} from '@/libs/primitives'
-import { FormAction } from '@/libs/shared'
+} from '@/libs/primitives';
+import { FormAction } from '@/libs/shared';
+
+import Add from '../public/Add';
 
 export default function Home() {
-  const [state, setState] = useState(false)
-  const [open, setOpen] = useState(false)
-  const [selected, setSelected] = useState('option1')
-  const [checked, setChecked] = useState(false)
+  const [state, setState] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState('option1');
+  const [checked, setChecked] = useState(false);
 
-  const handleChange: SelectProps['onChange'] = (event) => {
-    setValue(event.target.value as string)
-  }
-  const [value, setValue] = useState('')
+  const handleChange: SelectProps['onChange'] = event => {
+    setValue(event.target.value as string);
+  };
+  const [value, setValue] = useState('');
   const toggleDrawer = (open: boolean) => () => {
-    setState(open)
-  }
+    setState(open);
+  };
 
   const options = [
     { label: 'Option 1', value: 'option1' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
-  ]
+  ];
 
-  const [selected1, setSelected1] = useState<string[]>([])
+  const [selected1, setSelected1] = useState<string[]>([]);
 
   const handleChange1 = (values: string[]) => {
-    setSelected1(values)
-    console.log('Selected values:', values)
-  }
+    setSelected1(values);
+    console.log('Selected values:', values);
+  };
 
-  console.log(selected1, 'selected1selected1selected1')
+  console.log(selected1, 'selected1selected1selected1');
 
   return (
     <Grid style={{ padding: '24px', display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -90,16 +93,16 @@ export default function Home() {
         <Flex padding={'16px'}>dsfdf</Flex>
         <FormAction
           onClose={() => {
-            toggleDrawer(false)
-            setOpen(false)
+            toggleDrawer(false);
+            setOpen(false);
           }}
         />
       </Modal>
       <Drawer anchor={'bottom'} open={state} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
         <form
-          onSubmit={(e) => {
-            e.preventDefault() // prevent page reload
-            console.log('dfad')
+          onSubmit={e => {
+            e.preventDefault(); // prevent page reload
+            console.log('dfad');
           }}
         >
           <Flex>
@@ -129,7 +132,7 @@ export default function Home() {
         <SingleCheckbox
           label='Accept Terms & Conditions'
           checked={checked}
-          onChange={(e) => setChecked(e.target.checked)}
+          onChange={e => setChecked(e.target.checked)}
         />
       </div>
       <div>
@@ -137,11 +140,11 @@ export default function Home() {
         <MultiCheckbox isRow options={options} defaultValues={['option2']} onChange={handleChange1} />
       </div>
     </Grid>
-  )
+  );
 }
 
 const AddStyle = styled(Add)`
   path {
     fill: red;
   }
-`
+`;
