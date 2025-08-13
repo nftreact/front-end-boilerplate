@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔨 Building project..."
+npm run build
+
+echo " validate..."
+npm run validate
+
+echo "🧠 Running TypeScript type checks..."
+npm run type-check
+
+echo "🧹 Running ESLint..."
+npm run lint
