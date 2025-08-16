@@ -1,8 +1,8 @@
-'use client'
+import { ReactEventHandler } from 'react';
 
-import { ReactEventHandler } from 'react'
-import { Button, Grid } from '../primitives'
-import { colorPalette } from '../theme'
+import { Button } from '../primitives';
+import { Grid } from '../primitives/layout/Grid';
+import { colorPalette } from '../theme';
 
 /**
  * props
@@ -10,8 +10,8 @@ import { colorPalette } from '../theme'
  */
 
 type Props = {
-  onClose: ReactEventHandler
-}
+  onClose: ReactEventHandler;
+};
 
 const FormAction = ({ onClose }: Props) => {
   /**
@@ -35,31 +35,32 @@ const FormAction = ({ onClose }: Props) => {
    */
   return (
     <Grid
-      padding={{ xs: '10px 16px', md: '10px 16px' }}
-      columns={{ xs: 2, md: 1 }}
-      container
-      spacing={'8px'}
-      style={{ backgroundColor: colorPalette.gray[2], marginBlockStart: 'auto' }}
-      position={{ xs: 'fixed', md: 'sticky' }}
-      right={0}
-      left={0}
-      bottom={0}
+      columns={{ mobile: 2, tablet: 'max-content max-content' }}
+      gap={{ mobile: '8px' }}
+      style={{
+        backgroundColor: colorPalette.gray[2],
+        marginBlockStart: 'auto',
+        padding: '10px 16px',
+      }}
+      position={{ mobile: 'fixed', laptop: 'sticky' }}
+      right={{ mobile: 0 }}
+      left={{ mobile: 0 }}
+      bottom={{ mobile: 0 }}
+      width={{ mobile: '100%' }}
     >
-      <Grid size={1} width={{ xs: '48%', md: '100px' }}>
-        <Button variant='soft' size='medium' type='submit' style={{ width: '100%' }}>
-          ثبت
-        </Button>
-      </Grid>
-      <Grid size={1} width={{ xs: '50%', md: '100px' }}>
-        <Button variant='solid' size='medium' style={{ width: '100%' }} onClick={onClose}>
-          لغو
-        </Button>
-      </Grid>
+      {/* <GridItem maxWidth={{ mobile: '100%', tablet: 'max-content' }}> */}
+      <Button variant='soft' size='medium' type='submit' minWidth={{ mobile: '100px' }}>
+        ثبت
+      </Button>
+      {/* </GridItem> */}
+      <Button variant='solid' size='medium' onClick={onClose} minWidth={{ mobile: '100px' }}>
+        لغو
+      </Button>
     </Grid>
-  )
-}
+  );
+};
 
-export default FormAction
+export default FormAction;
 
 /**
  * styled-component

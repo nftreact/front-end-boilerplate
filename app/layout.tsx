@@ -1,10 +1,7 @@
 import type { Metadata } from 'next';
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-
+import { ReactQueryProvider, StyledComponentsRegistry } from '@/libs/providers';
 import { sans } from '@/libs/theme';
-import theme from '@/libs/theme/custom-theme';
 import '@/libs/theme/globals.css';
 
 export const metadata: Metadata = {
@@ -20,12 +17,9 @@ export default function RootLayout({
   return (
     <html className={sans.variable} lang='fa' dir='rtl'>
       <body>
-        <AppRouterCacheProvider options={{ key: 'css', enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <ReactQueryProvider>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -1,11 +1,12 @@
-export { Button } from './components/Button'
-export { default as IconButton } from './components/IconButton'
-export { default as Select } from './components/Select'
-export { default as Drawer } from './components/Drawer'
-export { default as TextField } from './components/TextField'
-export { default as Flex } from './layout/FLex'
-export { default as Grid } from './layout/Grid'
-export { default as Modal } from './components/Modal'
-export { default as RadioButton } from './components/RadioButton'
-export { default as SingleCheckbox } from './components/SingleCheckbox'
-export { default as MultiCheckbox } from './components/MultiCheckbox'
+export { Button } from './components/Button';
+export { default as IconButton } from './components/IconButton';
+export { default as Drawer } from './components/Drawer';
+export { default as TextField } from './components/TextField';
+export { default as Modal } from './components/Modal';
+export { default as RadioButton } from './components/RadioButton';
+export { default as SingleCheckbox } from './components/SingleCheckbox';
+export { default as MultiCheckbox } from './components/MultiCheckbox';
+export { Typography } from './components/Typography';
+export { Flex } from './layout/Flex';
+export { Grid } from './layout/Grid';
+export { default as Select } from './components/CustomSelect';

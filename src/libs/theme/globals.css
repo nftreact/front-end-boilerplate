@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: var(--sans-font);
 }
 
 a {
@@ -19,18 +20,4 @@ a {
   line-height: inherit;
   text-align: inherit;
   text-transform: none;
-}
-
-html[dir='rtl'] legend {
-  text-align: right;
-  width: auto !important;
-  margin-left: 10px !important;
-  margin-right: 10px;
-}
-
-html[dir='ltr'] legend {
-  text-align: left;
-  width: unset !important;
-  margin-left: unset !important;
-  margin-right: unset;
 }

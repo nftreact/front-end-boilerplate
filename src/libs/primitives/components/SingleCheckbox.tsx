@@ -1,26 +1,28 @@
-'use client'
+'use client';
 
-import { colorPalette } from '@/libs/theme'
-import { styled } from '@mui/material'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useState } from 'react';
+
+import styled from 'styled-components';
+
+import { colorPalette } from '@/libs/theme';
 
 interface SingleCheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
-  checked?: boolean
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  label: string;
+  checked?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SingleCheckbox = forwardRef<HTMLInputElement, SingleCheckboxProps>(
   ({ label, checked: controlledChecked, onChange, ...props }, ref) => {
-    const [internalChecked, setInternalChecked] = useState(controlledChecked ?? false)
+    const [internalChecked, setInternalChecked] = useState(controlledChecked ?? false);
 
-    const isControlled = controlledChecked !== undefined
-    const checked = isControlled ? controlledChecked : internalChecked
+    const isControlled = controlledChecked !== undefined;
+    const checked = isControlled ? controlledChecked : internalChecked;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!isControlled) setInternalChecked(e.target.checked)
-      if (onChange) onChange(e)
-    }
+      if (!isControlled) setInternalChecked(e.target.checked);
+      if (onChange) onChange(e);
+    };
 
     return (
       <CheckboxWrapper>
@@ -28,12 +30,12 @@ const SingleCheckbox = forwardRef<HTMLInputElement, SingleCheckboxProps>(
         <StyledCheckbox checked={checked} />
         <CheckboxLabel>{label}</CheckboxLabel>
       </CheckboxWrapper>
-    )
-  },
-)
+    );
+  }
+);
 
-SingleCheckbox.displayName = 'SingleCheckbox'
-export default SingleCheckbox
+SingleCheckbox.displayName = 'SingleCheckbox';
+export default SingleCheckbox;
 
 /**
  * styled-components
@@ -45,7 +47,7 @@ const CheckboxWrapper = styled('label')`
   cursor: pointer;
   user-select: none;
   position: relative;
-`
+`;
 
 const HiddenCheckbox = styled('input')`
   border: 0;
@@ -58,10 +60,10 @@ const HiddenCheckbox = styled('input')`
   position: absolute;
   white-space: nowrap;
   width: 1px;
-`
+`;
 
 interface StyledCheckboxProps {
-  checked?: boolean
+  checked?: boolean;
 }
 
 const StyledCheckbox = styled('div')<StyledCheckboxProps>(({ checked }) => ({
@@ -87,9 +89,9 @@ const StyledCheckbox = styled('div')<StyledCheckboxProps>(({ checked }) => ({
     position: 'absolute',
     bottom: '4px',
   },
-}))
+}));
 
 const CheckboxLabel = styled('span')`
   font-size: 14px;
   color: ${colorPalette.gray[11]};
-`
+`;

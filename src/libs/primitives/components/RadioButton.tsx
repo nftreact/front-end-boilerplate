@@ -1,17 +1,19 @@
-'use client'
+'use client';
 
-import { colorPalette } from '@/libs/theme'
-import { styled } from '@mui/material'
-import React, { forwardRef, useState, useEffect } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react';
+
+import styled from 'styled-components';
+
+import { colorPalette } from '@/libs/theme';
 
 /**
  * props
  * _______________________________________________________________________________
  */
 interface RadioButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
-  name: string
-  value: string
+  label: string;
+  name: string;
+  value: string;
 }
 
 /**
@@ -20,14 +22,14 @@ interface RadioButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
  */
 const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
   ({ label, name, value, checked: checkedProp, ...props }, ref) => {
-    const [checked, setChecked] = useState<boolean>(!!checkedProp)
+    const [checked, setChecked] = useState<boolean>(!!checkedProp);
 
     // update local state if controlled
     useEffect(() => {
       if (checkedProp !== undefined) {
-        setChecked(checkedProp)
+        setChecked(checkedProp);
       }
-    }, [checkedProp])
+    }, [checkedProp]);
 
     return (
       <RadioWrapper>
@@ -37,18 +39,18 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
           name={name}
           value={value}
           checked={checked}
-          onChange={(e) => setChecked(e.target.checked)}
+          onChange={e => setChecked(e.target.checked)}
           {...props}
         />
         <StyledRadio checked={checked} />
         <RadioLabel>{label}</RadioLabel>
       </RadioWrapper>
-    )
-  },
-)
+    );
+  }
+);
 
-RadioButton.displayName = 'RadioButton'
-export default RadioButton
+RadioButton.displayName = 'RadioButton';
+export default RadioButton;
 
 /**
  * styled-components
@@ -61,7 +63,7 @@ const RadioWrapper = styled('label')({
   cursor: 'pointer',
   userSelect: 'none',
   position: 'relative',
-})
+});
 
 const HiddenRadio = styled('input')({
   border: 0,
@@ -74,7 +76,7 @@ const HiddenRadio = styled('input')({
   position: 'absolute',
   whiteSpace: 'nowrap',
   width: 1,
-})
+});
 
 const StyledRadio = styled('div')<{ checked?: boolean }>(({ checked }) => ({
   width: 18,
@@ -96,9 +98,9 @@ const StyledRadio = styled('div')<{ checked?: boolean }>(({ checked }) => ({
     opacity: checked ? 1 : 0,
     transition: 'opacity 0.2s ease',
   },
-}))
+}));
 
 const RadioLabel = styled('span')({
   fontSize: 14,
   color: colorPalette.gray[11],
-})
+});

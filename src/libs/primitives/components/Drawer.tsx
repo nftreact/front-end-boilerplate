@@ -1,85 +1,89 @@
-import React, { forwardRef } from 'react'
-import SwipeableDrawer, { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer'
-import { Flex, IconButton } from '..'
-import { colorPalette } from '@/libs/theme'
-import { styled, Typography } from '@mui/material'
-import Add from '../../../../public/Add'
+'use client';
 
-type PrimitiveSwipeableDrawerProps = SwipeableDrawerProps & {
-  slideDirection?: 'left' | 'right' | 'up' | 'down'
-}
+import React, { forwardRef, ReactNode, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
-const PrimitiveSwipeableDrawer = forwardRef<HTMLDivElement, PrimitiveSwipeableDrawerProps>(
-  ({ children, onClose, anchor = 'left', slideDirection, sx, ...rest }, ref) => {
-    const resolvedDirection =
-      slideDirection ?? (anchor === 'left' ? 'right' : anchor === 'right' ? 'left' : anchor === 'top' ? 'down' : 'up')
+import styled, { css, keyframes } from 'styled-components';
 
-    return (
-      <SwipeableDrawer
-        onClose={onClose}
-        ref={ref}
-        anchor={anchor}
-        SlideProps={{
-          direction: resolvedDirection,
-        }}
-        sx={{
-          '.MuiDrawer-paper': {
-            // borderTopLeftRadius: '10px',
-            // borderTopRightRadius: '10px',
-            backgroundColor: colorPalette.gray[2],
-          },
+import { Grid } from '../layout/Grid';
 
-          '& .MuiDrawer-paper': {
-            transformOrigin:
-              anchor === 'left'
-                ? 'left center'
-                : anchor === 'right'
-                ? 'right center'
-                : anchor === 'top'
-                ? 'center top'
-                : 'center bottom',
-            transition: 'transform 0.3s ease',
-          },
-          ...sx,
-        }}
-        {...rest}
-      >
-        <Flex
-          height={'100dvh'}
-          style={{
-            overflow: 'scroll',
-            backgroundColor: colorPalette.gray[2],
-          }}
+type PrimitiveDrawerProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  slideDirection?: 'left' | 'right' | 'up' | 'down';
+  isFullHeight?: boolean;
+  children: ReactNode;
+};
+
+const PrimitiveDrawer = forwardRef<HTMLDivElement, PrimitiveDrawerProps>(
+  ({ isOpen, onClose, slideDirection = 'right', isFullHeight = false, children }, ref) => {
+    useEffect(() => {
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+      return () => {
+        document.body.style.overflow = 'auto';
+      };
+    }, [isOpen]);
+
+    if (!isOpen) return null;
+
+    return createPortal(
+      <Overlay onClick={onClose} display={{ mobile: 'grid', laptop: 'none' }}>
+        <DrawerContainer
+          ref={ref}
+          direction={slideDirection}
+          isFullHeight={isFullHeight}
+          onClick={e => e.stopPropagation()}
         >
-          <Flex
-            p={'10px 16px'}
-            style={{ backgroundColor: colorPalette.gray[3] }}
-            direction={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            position={'fixed'}
-            top={0}
-            right={0}
-            left={0}
-          >
-            <Typography>عنوان</Typography>
-            <IconButton variant='soft' size='small' onClick={onClose}>
-              <AddStyle />
-            </IconButton>
-          </Flex>
-          <Flex padding={'65px 16px 75px 16px'}>{children}</Flex>
-        </Flex>
-      </SwipeableDrawer>
-    )
-  },
-)
-
-PrimitiveSwipeableDrawer.displayName = 'PrimitiveSwipeableDrawer'
-
-export default PrimitiveSwipeableDrawer
-
-const AddStyle = styled(Add)`
-  path {
-    fill: red;
+          {children}
+        </DrawerContainer>
+      </Overlay>,
+      document.body
+    );
   }
-`
+);
+
+PrimitiveDrawer.displayName = 'PrimitiveDrawer';
+export default PrimitiveDrawer;
+
+// ----- Styled Components -----
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = {
+  left: keyframes`from { transform: translateX(-100%); } to { transform: translateX(0); }`,
+  right: keyframes`from { transform: translateX(100%); } to { transform: translateX(0); }`,
+  up: keyframes`from { transform: translateY(-100%); } to { transform: translateY(0); }`,
+  down: keyframes`from { transform: translateY(100%); } to { transform: translateY(0); }`,
+};
+
+const Overlay = styled(Grid)`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  animation: ${fadeIn} 0.3s ease forwards;
+`;
+
+const DrawerContainer = styled.div.withConfig({
+  shouldForwardProp: prop => prop !== 'isFullHeight' && prop !== 'direction',
+})<{
+  direction: 'left' | 'right' | 'up' | 'down';
+  isFullHeight?: boolean;
+}>`
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  animation: ${p => css`
+    ${slideIn[p.direction]} 0.3s ease forwards
+  `};
+
+  ${p => p.direction === 'left' && 'left: 0; top: 0; height: 100dvh;'}
+  ${p => p.direction === 'right' && 'right: 0; top: 0; height: 100dvh;'}
+  ${p => p.direction === 'up' && 'top: 0; left: 0; width: 100vw;'}
+  ${p =>
+    p.direction === 'down' &&
+    `bottom: 0; left: 0; width: 100vw; height: ${p.isFullHeight ? '100dvh' : 'auto'};`}
+`;

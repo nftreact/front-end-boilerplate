@@ -1,8 +1,8 @@
 'use client'
 
 import { colorPalette } from '@/libs/theme'
-import { css, styled } from '@mui/material'
 import React, { forwardRef, ReactNode } from 'react'
+import styled, { css } from 'styled-components'
 
 type ButtonVariant = 'soft' | 'solid' | 'text'
 type ButtonSize = 'small' | 'medium' | 'large'

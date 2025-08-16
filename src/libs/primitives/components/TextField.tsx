@@ -1,9 +1,13 @@
+'use client';
+
 import React, { forwardRef, InputHTMLAttributes, ReactNode } from 'react';
 
-import styled from '@emotion/styled';
-import { css, Typography } from '@mui/material';
+import styled, { css } from 'styled-components';
 
 import { colorPalette } from '@/libs/theme';
+
+import { Grid } from '../layout/Grid';
+import { Typography } from './Typography';
 
 type Variant = 'outlined' | 'filled' | 'underline';
 
@@ -13,13 +17,30 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   errorText?: string;
+  lable: string;
 }
 
 const TextField = forwardRef<HTMLInputElement, InputProps>(
-  ({ variant = 'outlined', error = false, startAdornment, errorText, endAdornment, ...props }, ref) => {
+  (
+    { variant = 'outlined', error = false, lable, startAdornment, errorText, endAdornment, ...props },
+    ref
+  ) => {
     return (
-      <>
-        <Container variant={variant} error={error}>
+      <Grid width={{ mobile: '100%' }}>
+        <Container variant={variant} $error={error}>
+          <Typography
+            variant='body2'
+            fontSize={{ mobile: '11px' }}
+            style={{
+              position: 'absolute',
+              top: '-12px',
+              backgroundColor: colorPalette.gray[1],
+              paddingInline: '7px',
+              color: error ? colorPalette.pink[11] : colorPalette.gray[9],
+            }}
+          >
+            {lable}
+          </Typography>
           {startAdornment && <Adornment position='start'>{startAdornment}</Adornment>}
           <StyledInput
             ref={ref}
@@ -30,11 +51,11 @@ const TextField = forwardRef<HTMLInputElement, InputProps>(
           {endAdornment && <Adornment position='end'>{endAdornment}</Adornment>}
         </Container>
         {errorText && (
-          <Typography fontSize={'10px'} pr={'10px'} mt={'-10px'} style={{ color: 'red' }}>
+          <Typography variant='caption' style={{ color: colorPalette.pink[11], paddingRight: '10px' }}>
             {errorText}
           </Typography>
         )}
-      </>
+      </Grid>
     );
   }
 );
@@ -44,7 +65,8 @@ TextField.displayName = 'TextField';
 export default TextField;
 
 // Container to hold input and adornments
-const Container = styled.div<{ variant: Variant; error: boolean }>`
+// Container to hold input and adornments
+const Container = styled.div<{ variant: Variant; $error: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
@@ -53,8 +75,8 @@ const Container = styled.div<{ variant: Variant; error: boolean }>`
 
   ${({ variant }) => variantStyles[variant]}
 
-  ${({ error }) =>
-    error &&
+  ${({ $error }) =>
+    $error &&
     css`
       border-color: ${colorPalette.pink[9]} !important;
       background-color: ${colorPalette.pink[2]};
@@ -65,6 +87,7 @@ const Container = styled.div<{ variant: Variant; error: boolean }>`
         color: ${colorPalette.pink[9]}; /* text color when typing */
 
         &::placeholder {
+          font-size: 9px;
           color: ${colorPalette.pink[9]}; /* placeholder color on error */
           opacity: 1; /* ensure it's visible */
         }
@@ -84,6 +107,12 @@ const StyledInput = styled.input<{ variant: Variant }>`
 
   &:focus {
     outline: none;
+  }
+
+  &::placeholder {
+    font-size: 12px !important;
+    color: ${colorPalette.gray[9]}; /* placeholder color on error */
+    opacity: 1; /* ensure it's visible */
   }
 `;
 
@@ -110,11 +139,11 @@ const variantStyles = {
     padding: 6px 8px; // container padding to contain input + adornments
 
     &:focus-within {
-      border-color: ${colorPalette.gray[12]};
+      border-color: ${colorPalette.blue[12]};
     }
 
     &:hover {
-      border-color: ${colorPalette.gray[12]};
+      border-color: ${colorPalette.blue[12]};
     }
   `,
   filled: css`
@@ -131,7 +160,7 @@ const variantStyles = {
     padding: 0 8px;
 
     &:focus-within {
-      border-bottom-color: #007bff;
+      border-bottom-color: ${colorPalette.blue[12]};
     }
   `,
 };

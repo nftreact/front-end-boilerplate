@@ -1,32 +1,40 @@
-'use client'
+'use client';
 
-import { styled } from '@mui/material'
-import React, { useState } from 'react'
-import { Flex } from '..'
-import { colorPalette } from '@/libs/theme'
+import React, { useState } from 'react';
+
+import { styled } from 'styled-components';
+
+import { colorPalette } from '@/libs/theme';
+
+import { Flex } from '..';
 
 /**
  * props
  * _______________________________________________________________________________
  */
 interface Option {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }
 
 interface MultiCheckboxProps {
-  isRow: boolean
-  options: Option[]
-  defaultValues?: string[]
-  onChange?: (values: string[]) => void
+  isRow: boolean;
+  options: Option[];
+  defaultValues?: string[];
+  onChange?: (values: string[]) => void;
 }
 
 /**
  * MultiCheckbox component
  * _______________________________________________________________________________
  */
-const MultiCheckbox: React.FC<MultiCheckboxProps> = ({ options, defaultValues = [], onChange, isRow = true }) => {
-  const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues)
+const MultiCheckbox: React.FC<MultiCheckboxProps> = ({
+  options,
+  defaultValues = [],
+  onChange,
+  isRow = true,
+}) => {
+  const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues);
 
   /**
    * handleChange
@@ -34,40 +42,40 @@ const MultiCheckbox: React.FC<MultiCheckboxProps> = ({ options, defaultValues = 
    */
   const handleChange = (value: string) => {
     const newValues = selectedValues.includes(value)
-      ? selectedValues.filter((v) => v !== value)
-      : [...selectedValues, value]
+      ? selectedValues.filter(v => v !== value)
+      : [...selectedValues, value];
 
-    setSelectedValues(newValues)
-    if (onChange) onChange(newValues)
-  }
+    setSelectedValues(newValues);
+    if (onChange) onChange(newValues);
+  };
 
   /**
    * template
    * _______________________________________________________________________________
    */
   return (
-    <CheckboxList direction={isRow ? 'row' : 'column'} gap={'8px'}>
-      {options.map((option) => {
-        const isChecked = selectedValues.includes(option.value)
+    <CheckboxList direction={{ mobile: isRow ? 'row' : 'column' }} gap={{ mobile: '8px' }}>
+      {options.map(option => {
+        const isChecked = selectedValues.includes(option.value);
         return (
           <CheckboxWrapper key={option.value}>
             <HiddenCheckbox type='checkbox' checked={isChecked} onChange={() => handleChange(option.value)} />
             <StyledCheckbox checked={isChecked} />
             <CheckboxLabel>{option.label}</CheckboxLabel>
           </CheckboxWrapper>
-        )
+        );
       })}
     </CheckboxList>
-  )
-}
+  );
+};
 
-export default MultiCheckbox
+export default MultiCheckbox;
 
 /**
  * styled-components
  * _______________________________________________________________________________
  */
-const CheckboxList = styled(Flex)``
+const CheckboxList = styled(Flex)``;
 
 const CheckboxWrapper = styled('label')`
   display: flex;
@@ -76,7 +84,7 @@ const CheckboxWrapper = styled('label')`
   cursor: pointer;
   user-select: none;
   position: relative;
-`
+`;
 
 const HiddenCheckbox = styled('input')`
   border: 0;
@@ -89,10 +97,10 @@ const HiddenCheckbox = styled('input')`
   position: absolute;
   white-space: nowrap;
   width: 1px;
-`
+`;
 
 interface StyledCheckboxProps {
-  checked?: boolean
+  checked?: boolean;
 }
 
 const StyledCheckbox = styled('div')<StyledCheckboxProps>(({ checked }) => ({
@@ -118,9 +126,9 @@ const StyledCheckbox = styled('div')<StyledCheckboxProps>(({ checked }) => ({
     position: 'absolute',
     bottom: '4px',
   },
-}))
+}));
 
 const CheckboxLabel = styled('span')`
   font-size: 14px;
   color: ${colorPalette.gray[11]};
-`
+`;

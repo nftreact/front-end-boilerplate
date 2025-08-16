@@ -1,8 +1,8 @@
 // next.config.js
 const nextConfig = {
   compiler: {
-    emotion: true,
+    styledComponents: true,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
